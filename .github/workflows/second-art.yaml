@@ -11,37 +11,37 @@ jobs:
       run: sudo apt-get install cowsay -y
 
     - name: Execute Cowsay CMD
-      run: cowsay -f tweety-bird "Hello Musu, I'm tweety-bird" >> tweety-bird.txt
+      run: cowsay -f tweety "Hello Musu, I'm tweety" >> tweety.txt
     
-    - name: Upload tweety-bird text file
+    - name: Upload tweety text file
       uses: actions/upload-artifact@v3
       with:
-        name: tweety-bird-text-file
-        path: tweety-bird.txt
+        name: tweety-text-file
+        path: tweety.txt
  
   test_job_2:
     needs: build_job_1
     runs-on: ubuntu-latest
     steps:
-    - name: Download tweety-bird text file
+    - name: Download tweety text file
       uses: actions/download-artifact@v3
       with:
-        name: tweety-bird-text-file
+        name: tweety-text-file
       
     - name: Test File Exists
-      run: grep -i "tweety-bird" tweety-bird.txt
+      run: grep -i "tweety" tweety.txt
 
   deploy_job_3:
     needs: [test_job_2]
     runs-on: ubuntu-latest
     steps:
-    - name: Download tweety-bird text file
+    - name: Download tweety text file
       uses: actions/download-artifact@v3
       with:
-        name: tweety-bird-text-file
+        name: tweety-text-file
         
     - name: Read File
-      run: cat tweety-bird.txt
+      run: cat tweety.txt
        
     - name: Deploy
       run: echo Deploying ... .. .
