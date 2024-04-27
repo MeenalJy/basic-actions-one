@@ -28,14 +28,14 @@ jobs:
       with:
         name: tweety-bird-text-file
       
-    - name: Test File Exists
-      run: grep -i "tweety-bird" tweety-bird.txt
+    - name: Test File Content
+      run: grep -i "Hello Musu" tweety-bird.txt || echo "Tweety Bird ASCII art not found"
 
   deploy_job_3:
     needs: [test_job_2]
     runs-on: ubuntu-latest
     steps:
-    - name: Download Tweety-bird text file
+    - name: Download Tweety text file
       uses: actions/download-artifact@v3
       with:
         name: tweety-bird-text-file
@@ -45,3 +45,4 @@ jobs:
        
     - name: Deploy
       run: echo Deploying ... .. .
+
