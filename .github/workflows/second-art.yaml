@@ -1,50 +1,52 @@
-name: My First ASCII Artwork
+name: Tweety Bird Cowsay
 
 on:  
-  push
+  push:
+    branches:
+      - main
 
 jobs:
-  build_job_1:
+  create_artwork:
     runs-on: ubuntu-latest
     steps:
-    - name: Install Cowsay Program
-      run: sudo apt-get install cowsay -y
-    
-    - name: Download tweety-bird Cowfile
-      run: sudo curl -o /usr/share/cowsay/cows/tweety-bird.cow https://github.com/MeenalJy/cowsay/blob/master/cows/tweety-bird.cow
+      - name: Install Cowsay Program
+        run: sudo apt-get install cowsay -y
 
-    - name: Execute Cowsay CMD
-      run: cowsay -f tweety-bird "Hello Musu, I'm tweety-bird" >> tweety-bird.txt
-    
-    - name: Upload tweety-bird text file
-      uses: actions/upload-artifact@v3
-      with:
-        name: tweety-bird-text-file
-        path: tweety-bird.txt
- 
-  test_job_2:
-    needs: build_job_1
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download tweety-bird text file
-      uses: actions/download-artifact@v3
-      with:
-        name: tweety-bird-text-file
-      
-    - name: Test File Exists
-      run: grep -i "tweety-bird" tweety-bird.txt
+      - name: Download Tweety Bird Cowfile
+        run: sudo curl -o /usr/share/cowsay/cows/tweety-bird.cow https://raw.githubusercontent.com/MeenalJy/cowsay/master/cows/tweety-bird.cow
 
-  deploy_job_3:
-    needs: [test_job_2]
+      - name: Execute Cowsay CMD
+        run: cowsay -f tweety-bird "Hello Musu, I'm Tweety Bird" >> tweety-bird.txt
+
+      - name: Upload Tweety Bird text file
+        uses: actions/upload-artifact@v3
+        with:
+          name: tweety-bird-text-file
+          path: tweety-bird.txt
+
+  test_artwork:
     runs-on: ubuntu-latest
+    needs: create_artwork
     steps:
-    - name: Download tweety-bird text file
-      uses: actions/download-artifact@v3
-      with:
-        name: tweety-bird-text-file
-        
-    - name: Read File
-      run: cat tweety-bird.txt
-       
-    - name: Deploy
-      run: echo Deploying ... .. .
+      - name: Download Tweety Bird text file
+        uses: actions/download-artifact@v3
+        with:
+          name: tweety-bird-text-file
+
+      - name: Test File Exists
+        run: grep -i "tweety-bird" tweety-bird.txt
+
+  deploy_artwork:
+    runs-on: ubuntu-latest
+    needs: test_artwork
+    steps:
+      - name: Download Tweety Bird text file
+        uses: actions/download-artifact@v3
+        with:
+          name: tweety-bird-text-file
+
+      - name: Read File
+        run: cat tweety-bird.txt
+
+      - name: Deploy
+        run: echo "Deploying..."
