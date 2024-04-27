@@ -29,13 +29,13 @@ jobs:
         name: tweety-bird-text-file
       
     - name: Test File Exists
-      run: grep -i "tweety" tweety-bird.txt
+      run: grep -i "tweety-bird" tweety-bird.txt
 
   deploy_job_3:
     needs: [test_job_2]
     runs-on: ubuntu-latest
     steps:
-    - name: Download Tweety text file
+    - name: Download Tweety-bird text file
       uses: actions/download-artifact@v3
       with:
         name: tweety-bird-text-file
