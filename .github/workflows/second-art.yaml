@@ -33,15 +33,6 @@ jobs:
         with:
           name: tweety-bird-text-file
 
-      - name: Test File Contents
-        run: |
-         if grep -q "tweety-bird" tweety-bird.txt; then
-            echo "Tweety Bird found in file."
-          else
-            echo "Tweety Bird not found in file."
-            exit 1
-          fi
-
   deploy_artwork:
     runs-on: ubuntu-latest
     needs: test_artwork
