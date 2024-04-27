@@ -1,0 +1,50 @@
+name: Bong Cowsay
+
+on:  
+  push:
+    branches:
+      - main
+
+jobs:
+  create_artwork:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Cowsay Program
+        run: sudo apt-get install cowsay -y
+
+      - name: Download Bong Cowfile
+        run: sudo curl -o /usr/share/cowsay/cows/bong.cow https://raw.githubusercontent.com/MeenalJy/cowsay/master/cows/bong.cow
+
+      - name: Execute Cowsay CMD
+        run: cowsay -f bong "Cutuuu Baibu, Be Happy, Be Strong" >> bong.txt
+
+      - name: Upload Bong text file
+        uses: actions/upload-artifact@v3
+        with:
+          name: bong-text-file
+          path: bong.txt
+
+  test_artwork:
+    runs-on: ubuntu-latest
+    needs: create_artwork
+    steps:
+      - name: Download Bong text file
+        uses: actions/download-artifact@v3
+        with:
+          name: bong-text-file
+
+  deploy_artwork:
+    runs-on: ubuntu-latest
+    needs: test_artwork
+    steps:
+      - name: Download Bong text file
+        uses: actions/download-artifact@v3
+        with:
+          name: bong-text-file
+
+      - name: Read File
+        run: cat bong.txt
+
+      - name: Deploy
+        run: echo "Deploying..."
+
