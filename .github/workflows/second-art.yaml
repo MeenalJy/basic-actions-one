@@ -35,7 +35,7 @@ jobs:
 
       - name: Test File Contents
         run: |
-          if grep -qi "tweety-bird" tweety-bird.txt; then
+         if grep -q "tweety-bird" tweety-bird.txt; then
             echo "Tweety Bird found in file."
           else
             echo "Tweety Bird not found in file."
